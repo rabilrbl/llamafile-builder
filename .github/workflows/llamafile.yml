@@ -17,13 +17,8 @@ jobs:
                 repository: "Mozilla-Ocho/llamafile"
                 ref: "main"
 
-            - name: Install GCC
-              uses: egor-tensin/setup-gcc@v1.3
-              with:
-                version: latest
-
-            - name: Install make
-              run: sudo apt-get install make
+            - name: Install GCC and Make
+              run: sudo apt-get install make gcc -y
 
             - name: Prepare build
               run: |
