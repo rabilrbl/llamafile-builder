@@ -1,0 +1,68 @@
+name: Build llamafile
+
+on:
+    workflow_dispatch:
+        inputs:
+            model_url:
+                description: "URL to the model to be used"
+                required: true
+
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                repository: "Mozilla-Ocho/llamafile"
+                ref: "main"
+
+            - name: Install GCC
+              uses: egor-tensin/setup-gcc@v1.3
+              with:
+                version: latest
+
+            - name: Install make
+              run: sudo apt-get install make
+
+            - name: Prepare build
+              run: |
+                make -j$(nproc)
+                sudo make install PREFIX=/usr/local
+
+            - name: Find model name
+              id: model_name
+              run: |
+                echo model=${{ github.event.inputs.model_url }} | grep -o '[^/]*$' | sed 's/?download=true//' >> $GITHUB_OUTPUT
+
+            - name: Download model
+              run: |
+                wget -O ${{ steps.model_name.outputs.model }} ${{ github.event.inputs.model_url }}
+
+            - name: Create .args
+              run: |
+                echo "-m" > .args
+                echo "${{ steps.model_name.outputs.model }}" >> .args
+                echo "--host" >> .args
+                echo "0.0.0.0" >> .args
+                echo "..." >> .args
+
+            - name: Prepare llama-server
+              run: |
+                # remove extension from model name
+                file_ext_removed_model_name=$(echo ${{ steps.model_name.outputs.model }} | sed 's/\.[^.]*$//')
+                cp /usr/local/bin/llamafile-server "$file_ext_removed_model_name".llamafile
+                zipalign -j0 "$file_ext_removed_model_name".llamafile ${{ steps.model_name.outputs.model }} .args
+
+            - name: Upload llamafile
+              uses: actions/upload-artifact@v2
+              with:
+                name: ${{ steps.model_name.outputs.model }}.llamafile
+                path: "*.llamafile"
+
+
+            
+
+            
+
+            
