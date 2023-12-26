@@ -18,7 +18,7 @@ jobs:
                 ref: "main"
 
             - name: Install GCC and Make
-              run: sudo apt-get install make gcc -y
+              run: sudo apt-get install make gcc g++ -y
 
             - name: Prepare build
               run: |
