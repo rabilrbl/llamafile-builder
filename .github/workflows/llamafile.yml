@@ -72,6 +72,8 @@ jobs:
                 python -m pip install huggingface_hub
 
             - name: Upload to HuggingFace
+              env:
+                HF_TOKEN: ${{ secrets.HF_TOKEN }}
               run: |
                 file_ext_removed_model_name=$(echo ${{ steps.model_name.outputs.model }} | sed 's/\.[^.]*$//')
                 python3 hf.py ${{ github.event.inputs.huggingface_repo }} "$file_ext_removed_model_name".llamafile
