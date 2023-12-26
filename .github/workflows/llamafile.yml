@@ -21,6 +21,14 @@ jobs:
                 repository: "Mozilla-Ocho/llamafile"
                 ref: "main"
 
+            # Add build cache
+            - uses: actions/cache@v3
+              with:
+                path: ~/.cache/ccache
+                key: ${{ runner.os }}-ccache-${{ hashFiles('**/Makefile') }}
+                restore-keys: |
+                  ${{ runner.os }}-ccache-
+
             - name: llamafile gotchas error
               run: |
                 sudo wget -O /usr/bin/ape https://cosmo.zip/pub/cosmos/bin/ape-$(uname -m).elf
