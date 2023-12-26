@@ -2,6 +2,8 @@
 
 A simple github actions script to build a llamafile from a given gguf file download url and uploads it to huggingface repo.
 
+llamafile lets you distribute and run LLMs with a single file. [announcement blog post](https://hacks.mozilla.org/2023/11/introducing-llamafile/)
+
 ## Inputs
 
 ### `model_url`
