@@ -16,13 +16,29 @@ api.create_repo(
     repo_type="model"
 )
 
+api.upload_file(
+    path_or_fileobj=file,
+    path_in_repo=file,
+    repo_id=repo,
+    repo_type="model",
+)
+
+repo_files = api.list_repo_files(repo, repo_type="model")
+
+llama_files = []
+
+for ifile in repo_files:
+    if ".llamafile" in ifile:
+        llama_files.append(f"\n - [{ifile}](https://huggingface.co/{repo}/resolve/main/{ifile})")
+
 # Create README.md
 README_CONTENT = f"""
 ### {file.replace(".llamafile", "")}
 
 llamafile lets you distribute and run LLMs with a single file. [announcement blog post](https://hacks.mozilla.org/2023/11/introducing-llamafile/)
 
-[Download {file}](https://huggingface.co/{repo}/resolve/main/{file})
+#### Downloads
+{''.join(llama_files)}
 
 This repository was created using the [llamafile-builder](https://github.com/rabilrbl/llamafile-builder)
 """
@@ -33,13 +49,6 @@ with open("HF_README.md", "w") as f:
 api.upload_file(
     path_or_fileobj="HF_README.md",
     path_in_repo="README.md",
-    repo_id=repo,
-    repo_type="model",
-)
-
-api.upload_file(
-    path_or_fileobj=file,
-    path_in_repo=file,
     repo_id=repo,
     repo_type="model",
 )
