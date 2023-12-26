@@ -76,8 +76,8 @@ jobs:
                 # remove extension from model name
                 cd llamafile
                 file_ext_removed_model_name=$(echo ${{ steps.model_name.outputs.model }} | sed 's/\.[^.]*$//')
-                cp /usr/local/bin/llamafile-server "$file_ext_removed_model_name".llamafile
-                zipalign -j0 "$file_ext_removed_model_name".llamafile ${{ steps.model_name.outputs.model }} .args
+                cp /usr/local/bin/llamafile-server "$file_ext_removed_model_name"-server.llamafile
+                zipalign -j0 "$file_ext_removed_model_name"-server.llamafile ${{ steps.model_name.outputs.model }} .args
 
             - name: Setup python
               uses: actions/setup-python@v5
@@ -96,7 +96,7 @@ jobs:
                 cp llamafile-builder/hf.py llamafile/hf.py
                 cd llamafile
                 file_ext_removed_model_name=$(echo ${{ steps.model_name.outputs.model }} | sed 's/\.[^.]*$//')
-                python3 hf.py ${{ github.event.inputs.huggingface_repo }} "$file_ext_removed_model_name".llamafile
+                python3 hf.py ${{ github.event.inputs.huggingface_repo }} "$file_ext_removed_model_name"-server.llamafile
 
 
             
