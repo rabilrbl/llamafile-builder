@@ -35,7 +35,7 @@ jobs:
             - name: Find model name
               id: model_name
               run: |
-                modeln=${{ github.event.inputs.model_url }} | grep -o '[^/]*$' | sed 's/?download=true//'
+                modeln=$(echo ${{ github.event.inputs.model_url }} | grep -o '[^/]*$' | sed 's/?download=true//')
                 echo "model=$modeln" >> $GITHUB_OUTPUT
 
             - name: Download model
