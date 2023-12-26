@@ -20,7 +20,9 @@ api.create_repo(
 README_CONTENT = f"""
 ### {file.replace(".llamafile", "")}
 
-[Download llamafile](https://huggingface.co/{repo}/resolve/main/{file})
+llamafile lets you distribute and run LLMs with a single file. [announcement blog post](https://hacks.mozilla.org/2023/11/introducing-llamafile/)
+
+[Download {file}](https://huggingface.co/{repo}/resolve/main/{file})
 
 This repository was created using the [llamafile-builder](https://github.com/rabilrbl/llamafile-builder)
 """
