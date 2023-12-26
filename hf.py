@@ -33,7 +33,7 @@ for ifile in repo_files:
 
 # Create README.md
 README_CONTENT = f"""
-### {file.replace(".llamafile", "")}
+## {"".join(repo.split("/")[1:])}
 
 llamafile lets you distribute and run LLMs with a single file. [announcement blog post](https://hacks.mozilla.org/2023/11/introducing-llamafile/)
 
