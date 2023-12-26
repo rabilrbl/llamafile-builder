@@ -17,7 +17,9 @@ jobs:
                 repository: "Mozilla-Ocho/llamafile"
                 ref: "main"
 
-            - uses: actions/setup-dotnet@v3
+            # Hack to fix build error
+            - run: |
+                rm -rf llama.cpp/llava
 
             - name: Install GCC and Make
               run: sudo apt-get install make gcc g++ -y
