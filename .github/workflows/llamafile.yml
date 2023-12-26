@@ -59,6 +59,7 @@ jobs:
 
             - name: Download model
               run: |
+                cd llamafile
                 wget -O ${{ steps.model_name.outputs.model }} ${{ github.event.inputs.model_url }}
 
             - name: Create .args
