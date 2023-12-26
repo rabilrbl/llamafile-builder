@@ -22,5 +22,3 @@ api.upload_file(
     repo_id=repo,
     repo_type="model",
 )
-
-logout()
