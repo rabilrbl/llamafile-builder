@@ -16,6 +16,22 @@ api.create_repo(
     repo_type="model"
 )
 
+# Create README.md
+README_CONTENT = f"""
+### {file.replace(".llamafile", "")}
+
+[Download llamafile](https://huggingface.co/{repo}/resolve/main/{file})
+
+This repository was created using the [llamafile-builder](https://github.com/rabilrbl/llamafile-builder)
+"""
+
+api.upload_file(
+    path_or_fileobj=README_CONTENT,
+    path_in_repo="README.md",
+    repo_id=repo,
+    repo_type="model",
+)
+
 api.upload_file(
     path_or_fileobj=file,
     path_in_repo=file,
