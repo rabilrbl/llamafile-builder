@@ -20,6 +20,11 @@ jobs:
               with:
                 repository: "Mozilla-Ocho/llamafile"
                 ref: "main"
+                path: "llamafile"
+
+            - uses: actions/checkout@v4
+              with:
+                path: "llamafile-builder"
 
             # Add build cache
             - uses: actions/cache@v3
@@ -42,6 +47,7 @@ jobs:
 
             - name: Prepare build
               run: |
+                cd llamafile
                 make -j$(nproc)
                 sudo make install PREFIX=/usr/local
 
@@ -57,6 +63,7 @@ jobs:
 
             - name: Create .args
               run: |
+                cd llamafile
                 echo "-m" > .args
                 echo "${{ steps.model_name.outputs.model }}" >> .args
                 echo "--host" >> .args
@@ -66,6 +73,7 @@ jobs:
             - name: Prepare llama-server
               run: |
                 # remove extension from model name
+                cd llamafile
                 file_ext_removed_model_name=$(echo ${{ steps.model_name.outputs.model }} | sed 's/\.[^.]*$//')
                 cp /usr/local/bin/llamafile-server "$file_ext_removed_model_name".llamafile
                 zipalign -j0 "$file_ext_removed_model_name".llamafile ${{ steps.model_name.outputs.model }} .args
@@ -84,6 +92,7 @@ jobs:
               env:
                 HF_TOKEN: ${{ secrets.HF_TOKEN }}
               run: |
+                cd llamafile-builder
                 file_ext_removed_model_name=$(echo ${{ steps.model_name.outputs.model }} | sed 's/\.[^.]*$//')
                 python3 hf.py ${{ github.event.inputs.huggingface_repo }} "$file_ext_removed_model_name".llamafile
 
