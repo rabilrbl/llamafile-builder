@@ -17,9 +17,12 @@ jobs:
                 repository: "Mozilla-Ocho/llamafile"
                 ref: "main"
 
-            - uses: actions/setup-dotnet@v3
-              with:
-                dotnet-version: '3.1'
+            - name: llamafile gotchas error
+              run: |
+                sudo wget -O /usr/bin/ape https://cosmo.zip/pub/cosmos/bin/ape-$(uname -m).elf
+                sudo chmod +x /usr/bin/ape
+                sudo sh -c "echo ':APE:M::MZqFpD::/usr/bin/ape:' >/proc/sys/fs/binfmt_misc/register"
+                sudo sh -c "echo ':APE-jart:M::jartsr::/usr/bin/ape:' >/proc/sys/fs/binfmt_misc/register"
 
             - name: Install GCC and Make
               run: sudo apt-get install make gcc g++ -y
