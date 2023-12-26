@@ -27,8 +27,11 @@ llamafile lets you distribute and run LLMs with a single file. [announcement blo
 This repository was created using the [llamafile-builder](https://github.com/rabilrbl/llamafile-builder)
 """
 
+with open("HF_README.md", "w") as f:
+    f.write(README_CONTENT)
+
 api.upload_file(
-    path_or_fileobj=README_CONTENT,
+    path_or_fileobj="HF_README.md",
     path_in_repo="README.md",
     repo_id=repo,
     repo_type="model",
