@@ -19,8 +19,8 @@ api.create_repo(
 api.upload_file(
     path_or_fileobj=file,
     path_in_repo=file,
-    repo_id="rabil/test-dataset",
-    repo_type="dataset",
+    repo_id=repo,
+    repo_type="model",
 )
 
 logout()
