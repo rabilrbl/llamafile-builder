@@ -97,7 +97,7 @@ jobs:
                 cp llamafile-builder/hf.py llamafile/hf.py
                 cd llamafile
                 file_ext_removed_model_name=$(echo ${{ steps.model_name.outputs.model }} | sed 's/\.[^.]*$//')
-                python3 hf.py ${{ github.event.inputs.huggingface_repo }} "$file_ext_removed_model_name"-server.llamafile
+                python3 hf.py ${{ github.event.inputs.model_url }}  ${{ github.event.inputs.huggingface_repo }} "$file_ext_removed_model_name"-server.llamafile
 
 
             
