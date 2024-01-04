@@ -16,11 +16,13 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
-              with:
-                repository: "Mozilla-Ocho/llamafile"
-                ref: "main"
-                path: "llamafile"
+            - name: Download Llamafile latest
+              run: |
+                  TAG=$(curl -s "https://api.github.com/repos/Mozilla-Ocho/llamafile/tags" | grep '"name":' | sed -E 's/.*"([^"]+)".*/\1/' | head -n 1)
+                  LLAMAFILE_SERVER_FILE_URL=$(https://github.com/Mozilla-Ocho/llamafile/releases/download/$TAG/llamafile-server-$TAG)
+                  wget -O /usr/local/bin/llamafile-server "$LLAMAFILE_SERVER_FILE_URL"
+                  ZIPALIGN_FILE_URL=$(https://github.com/Mozilla-Ocho/llamafile/releases/download/$TAG/zipalign-$TAG)
+                  wget -O /usr/local/bin/zipalign $ZIPALIGN_FILE_URL
 
             - uses: actions/checkout@v4
               with:
@@ -41,15 +43,6 @@ jobs:
                 sudo chmod +x /usr/bin/ape
                 sudo sh -c "echo ':APE:M::MZqFpD::/usr/bin/ape:' >/proc/sys/fs/binfmt_misc/register"
                 sudo sh -c "echo ':APE-jart:M::jartsr::/usr/bin/ape:' >/proc/sys/fs/binfmt_misc/register"
-
-            - name: Install GCC and Make
-              run: sudo apt-get install make gcc g++ -y
-
-            - name: Prepare build
-              run: |
-                cd llamafile
-                make -j$(nproc)
-                sudo make install PREFIX=/usr/local
 
             - name: Find model name
               id: model_name
