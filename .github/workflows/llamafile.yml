@@ -24,6 +24,7 @@ jobs:
                   wget -O "/usr/local/bin/llamafile-server" "$LLAMAFILE_SERVER_FILE_URL"
                   ZIPALIGN_FILE_URL="https://github.com/Mozilla-Ocho/llamafile/releases/download/$TAG/zipalign-$TAG"
                   wget -O "/usr/local/bin/zipalign" "$ZIPALIGN_FILE_URL"
+                  mkdir -p llamafile
 
             - uses: actions/checkout@v4
               with:
