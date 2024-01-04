@@ -2,8 +2,9 @@ import sys, os, re
 from huggingface_hub import HfApi,login, logout
 api = HfApi()
 
-repo = sys.argv[1]
-file = sys.argv[2]
+file_url = sys.argv[1]
+repo = sys.argv[2]
+file = sys.argv[3]
 
 token = os.environ.get("HF_TOKEN", None)
 
@@ -45,7 +46,7 @@ README_CONTENT = f"""
 tags:
     - llamafile
     - GGUF
-base_model: {extract_repo_id(file)}
+base_model: {extract_repo_id(file_url)}
 ---
 ## {"".join(repo.split("/")[1:])}
 
