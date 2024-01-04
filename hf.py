@@ -45,7 +45,7 @@ README_CONTENT = f"""
 tags:
     - llamafile
     - GGUF
-base_model: {extract_repo_id{file)}
+base_model: {extract_repo_id(file)}
 ---
 ## {"".join(repo.split("/")[1:])}
 
