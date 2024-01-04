@@ -1,4 +1,4 @@
-import sys, os
+import sys, os, re
 from huggingface_hub import HfApi,login, logout
 api = HfApi()
 
@@ -6,6 +6,14 @@ repo = sys.argv[1]
 file = sys.argv[2]
 
 token = os.environ.get("HF_TOKEN", None)
+
+def extract_repo_id(file_url):
+    pattern = r'huggingface\.co/([^/]+)/([^/]+)'
+    match = re.search(pattern, file_url)
+    if match:
+        return f"{match.group(1)}/{match.group(2)}"
+    else:
+        return None
 
 login(token=token, write_permission=True)
 
@@ -33,6 +41,12 @@ for ifile in repo_files:
 
 # Create README.md
 README_CONTENT = f"""
+---
+tags:
+    - llamafile
+    - GGUF
+base_model: {extract_repo_id{file)}
+---
 ## {"".join(repo.split("/")[1:])}
 
 llamafile lets you distribute and run LLMs with a single file. [announcement blog post](https://hacks.mozilla.org/2023/11/introducing-llamafile/)
