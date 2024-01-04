@@ -21,9 +21,9 @@ jobs:
                   mkdir -p /usr/local/bin
                   TAG=$(curl -s "https://api.github.com/repos/Mozilla-Ocho/llamafile/tags" | grep '"name":' | sed -E 's/.*"([^"]+)".*/\1/' | head -n 1)
                   LLAMAFILE_SERVER_FILE_URL="$(https://github.com/Mozilla-Ocho/llamafile/releases/download/$TAG/llamafile-server-$TAG)"
-                  wget -O /usr/local/bin/llamafile-server "$LLAMAFILE_SERVER_FILE_URL"
+                  wget -O "/usr/local/bin/llamafile-server" "$LLAMAFILE_SERVER_FILE_URL"
                   ZIPALIGN_FILE_URL="$(https://github.com/Mozilla-Ocho/llamafile/releases/download/$TAG/zipalign-$TAG)"
-                  wget -O /usr/local/bin/zipalign "$ZIPALIGN_FILE_URL"
+                  wget -O "/usr/local/bin/zipalign" "$ZIPALIGN_FILE_URL"
 
             - uses: actions/checkout@v4
               with:
